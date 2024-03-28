@@ -10,23 +10,24 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            float pssCS = 0;
+            float dolar = 0;
+            int pssCS = 0;
             int psssg = 0;
-            float pssCP = 0;
+            int pssCP = 0;
             int qntd = 0;
             int psscs = 0;
-            float pss = 0;
+            int pss = 0;
             float mediacr = 0;
             char resp;
             int maior = 0;
             int menor = 0;
             int dif = 0;
-            float cr = 0;
+            int cr = 0;
             float perP = 0;
             float perS = 0;
             string nmR = "";
             int cursomn = 0;
-            float idademn = 0;
+            int idademn = 0;
             double salariomn = 0;
             string nmM = "";
             int cursomr = 0;
@@ -42,54 +43,51 @@ namespace ConsoleApplication1
                 double salario = double.Parse(Console.ReadLine());
                 while (salario <= 0)
                 {
-                    Console.WriteLine("Valor digitado errado, faça novamente:");
-                    salario = float.Parse(Console.ReadLine());
+                    Console.WriteLine("Valor incopatível, digite novamente:");
+                    salario = double.Parse(Console.ReadLine());
                 }
 
                 Console.WriteLine("Qual sua idade:");
                 int idade = int.Parse(Console.ReadLine());
-                while (idade < 0)
+                while (idade <= 0)
                 {
-                    Console.WriteLine("Idade incopativel, faça novamente:");
+                    Console.WriteLine("Idade incopatível, digite novamente:");
                     idade = int.Parse(Console.ReadLine());
                 }
-
-                Console.WriteLine("Qual o valor da cotação do dólar:");
-                float dolar = float.Parse(Console.ReadLine());
-                while (dolar < 0)
+                if (qntd == 1)
                 {
-                    Console.WriteLine("Valor digitado errado, faça novamente:");
+                    Console.WriteLine("Qual o valor da cotação do dólar:");
                     dolar = float.Parse(Console.ReadLine());
                 }
-                Console.WriteLine("Qual o nivel do curso? 1-primário/2-segundo grau/3-superior: ");//(1)-primário, (2)-segundo grau, (3)-superior
+                while (dolar <= 0)
+                {
+                    Console.WriteLine("Valor incopatível, digite novamente:");
+                    dolar = float.Parse(Console.ReadLine());
+                }
+                Console.WriteLine("Qual o nivel do curso? 1-primário/2-segundo grau/3-superior: ");
                 int curso = int.Parse(Console.ReadLine());
                 while (curso != 1 && curso != 2 && curso != 3)
                 {
-                    Console.WriteLine("Valor digitado errado, faça novamente:");
+                    Console.WriteLine("Valor incopatível, digite novamente:");
                     curso = int.Parse(Console.ReadLine());
                 }
-                
+             
                 if (curso == 3 && salario > 500)
                     psscs++;
 
                 if (idade > 25)
-                {
                     maior++;
-                }
-                else
-                {
+                if (idade < 25)
                     menor++;
-                }
-                if (maior > menor)
+                if (maior > menor || maior == menor)
                     dif = maior - menor;
-                if (maior < menor)
+                if (maior < menor || maior == menor)
                     dif = menor - maior;
-
                 if (curso == 2)
                 {
                     pss++;
                     cr += idade;
-                    mediacr = cr / pss;
+                    mediacr = (float)cr / pss;
                 }
 
                 if (curso == 1)
@@ -98,18 +96,18 @@ namespace ConsoleApplication1
                     psssg++;
                 if (curso == 3)
                     pssCS++;
-                float total = (pssCP + pssCS + psssg);
-                perP = (pssCP / total) * 100;
-                perS = (pssCS / total) * 100;
+                float total = (float)(pssCP + pssCS + psssg);
+                perP = (float)(pssCP / total) * 100;
+                perS = (float)(pssCS / total) * 100;
 
-                if (salario > salariomr && salario != salario)
+                if (salario > salariomr)
                 {
                     salariomr = salario;
                     nmM = nome;
                     cursomr = curso;
                     idademr = idade;
                 }
-                if (qntd >= 2 && salario != salario && salariomn == 0 || salario < salariomn)
+                if (qntd == 1 || salario < salariomn)
                 {
                     salariomn = salario;
                     nmR = nome;
@@ -128,32 +126,44 @@ namespace ConsoleApplication1
                 if (somatorio > 50000)
                     salario = salario + (salario * 0.03);
 
-                somatorioreal += salario * dolar;
+                somatorioreal += (double) salario / dolar;
 
                 Console.WriteLine("Deseja continuar o programa? s/n:");
                 resp = char.Parse(Console.ReadLine());
                 while (resp != 's' && resp != 'n')
                 {
-                    Console.WriteLine("Resposta digitada errada, digite novamente. s/n:");
+                    Console.WriteLine("Resposta incopatível, digite novamente: s/n:");
                     resp = char.Parse(Console.ReadLine());
                 }
             } while (resp == 's');
-            //expor resultados
             Console.WriteLine("O número de pessoas com curso superior e que ganham mais de 500 reais são: " + psscs);
+         
             Console.WriteLine("A diferença entre a quantidade de pessoas com mais de 25 anos e menos de 25 anos é: " + dif);
+           
             Console.WriteLine("A idade média das pessoas que possuem 2º grau é: " + mediacr);
+           
             Console.WriteLine("O percentual de pessoas que possuem o curso Primário e o percentual de pessoas com curso superior é: ");
             Console.WriteLine("Primário: " + perP + "%");
             Console.WriteLine("Superior: " + perS + "%");
-            Console.WriteLine("Nome da pessoa com menor salário: " + nmR);
-            Console.WriteLine("Grau de instrução: " + cursomn);
-            Console.WriteLine("Idade: " + idademn);
-            Console.WriteLine("Salário: " + salariomn.ToString("0.00"));
+            if (qntd >= 2) 
+            {
+                Console.WriteLine("Nome da pessoa com menor salário: " + nmR);
+                Console.WriteLine("Grau de instrução: " + cursomn);
+                Console.WriteLine("Idade: " + idademn);
+                Console.WriteLine("Salário: " + salariomn.ToString("0.00"))
+            };
+            if (qntd == 1)
+            {
+                Console.WriteLine("Nome da pessoa com menor salário: Não há");
+                Console.WriteLine("Grau de instrução: Não há" + cursomn);
+                Console.WriteLine("Idade: Não há" + idademn);
+                Console.WriteLine("Salário: Não há" + salariomn.ToString("0.00"))
+            };
             Console.WriteLine("Nome da pessoa com maior salário: " + nmM);
             Console.WriteLine("Grau de instrução: " + cursomr);
             Console.WriteLine("Idade: " + idademr);
             Console.WriteLine("Salário: " + salariomr.ToString("0.00"));
-            Console.WriteLine("O valor da somatória dos salários, com a conversão de dólar para o valor em moeda real correspondente: " + somatorioreal.ToString("0.00"));
+            Console.WriteLine("O valor da somatória dos salários, com a conversão de real para o valor em moeda dólar correspondente: " + somatorioreal.ToString("0.00"));
         }
     }
 }
